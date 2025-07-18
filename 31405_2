@@ -1,0 +1,426 @@
+Database changed
+mysql> CREATE TABLE Dept (
+    ->     Dept_id INT PRIMARY KEY,
+    ->     Dept_name VARCHAR(50),
+    ->     Dept_location VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.74 sec)
+
+mysql> CREATE TABLE Employee (
+    ->     Emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    ->     Dept_id INT,
+    ->     Emp_fname VARCHAR(50),
+    ->     Emp_lname VARCHAR(50),
+    ->     Emp_position VARCHAR(50),
+    ->     Emp_salary DECIMAL(10,2),
+    ->     Emp_JoinDate DATE,
+    ->     FOREIGN KEY (Dept_id) REFERENCES Dept(Dept_id) ON DELETE CASCADE
+    -> );
+Query OK, 0 rows affected (1.64 sec)
+
+mysql> CREATE TABLE Project (
+    ->     Proj_id INT PRIMARY KEY AUTO_INCREMENT,
+    ->     Dept_id INT,
+    ->     Proj_name VARCHAR(50),
+    ->     Proj_location VARCHAR(50),
+    ->     Proj_cost DECIMAL(12,2),
+    ->     Proj_year YEAR,
+    ->     FOREIGN KEY (Dept_id) REFERENCES Dept(Dept_id) ON DELETE CASCADE
+    -> );
+Query OK, 0 rows affected (1.27 sec)
+
+mysql> CREATE VIEW Emp_Dept_View AS
+    -> SELECT 
+    ->     E.Emp_id, 
+    ->     E.Emp_fname, 
+    ->     E.Emp_lname, 
+    ->     E.Emp_position, 
+    ->     E.Emp_salary,
+    ->     D.Dept_name, 
+    ->     D.Dept_location
+    -> FROM Employee E
+    -> JOIN Dept D ON E.Dept_id = D.Dept_id;
+Query OK, 0 rows affected (0.24 sec)
+
+ 
+
+ 
+
+mysql> CREATE TABLE Emp_Seq (
+    ->     next_val INT
+    -> );
+Query OK, 0 rows affected (0.66 sec)
+
+mysql> 
+mysql> INSERT INTO Emp_Seq VALUES (1000);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> SELECT * FROM  Employee;
+Empty set (0.00 sec)
+
+mysql> -- Get and increment sequence manually
+mysql> UPDATE Emp_Seq SET next_val = next_val + 1;
+Query OK, 1 row affected (0.17 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT next_val FROM Emp_Seq;
++----------+
+| next_val |
++----------+
+|     1001 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> CREATE VIEW EmpTable AS
+    -> SELECT * FROM Employee;
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> SELECT * FROM EmpTable;
+Empty set (0.00 sec)
+
+
+
+--Query 1 1. Insert at least 10 records in the Employee table and insert other tables accordingly.
+
+
+
+mysql> INSERT INTO Dept (Dept_id, Dept_name, Dept_location) VALUES
+    -> (1, 'IT', 'Pune'),
+    -> (2, 'HR', 'Mumbai'),
+    -> (3, 'Finance', 'Delhi'),
+    -> (4, 'Marketing', 'Bangalore'),
+    -> (5, 'Operations', 'Hyderabad'),
+    -> (6, 'Computer', 'Pune'),
+    -> (7, 'ENTC', 'Pune'),
+    -> (8, 'AIDS', 'Mumbai'),
+    -> (9, 'ECE', 'Chennai'),
+    -> (10, 'Mechanical', 'Nashik');
+Query OK, 10 rows affected (0.15 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> Select * from Dept;
++---------+------------+---------------+
+| Dept_id | Dept_name  | Dept_location |
++---------+------------+---------------+
+|       1 | IT         | Pune          |
+|       2 | HR         | Mumbai        |
+|       3 | Finance    | Delhi         |
+|       4 | Marketing  | Bangalore     |
+|       5 | Operations | Hyderabad     |
+|       6 | Computer   | Pune          |
+|       7 | ENTC       | Pune          |
+|       8 | AIDS       | Mumbai        |
+|       9 | ECE        | Chennai       |
+|      10 | Mechanical | Nashik        |
++---------+------------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> INSERT INTO Employee (Dept_id, Emp_fname, Emp_lname, Emp_position, Emp_salary, Emp_JoinDate) VALUES
+    -> (1, 'Amit', 'Sharma', 'Software Engineer', 60000, '2021-06-15'),
+    -> (2, 'Priya', 'Desai', 'HR Manager', 75000, '2020-02-01'),
+    -> (3, 'Rohit', 'Jain', 'Accountant', 67000, '2022-07-10'),
+    -> (4, 'Sneha', 'Joshi', 'Marketing Exec', 58000, '2023-03-18'),
+    -> (5, 'Arjun', 'Mehta', 'Ops Manager', 72000, '2020-11-22'),
+    -> (6, 'Pooja', 'Rao', 'System Analyst', 64000, '2022-01-05'),
+    -> (7, 'Karan', 'Verma', 'Electronics Engg', 66000, '2021-09-30'),
+    -> (8, 'Anjali', 'Patil', 'AI Engineer', 77000, '2023-05-14'),
+    -> (9, 'Nikhil', 'Iyer', 'Comm Engg', 63000, '2022-06-12'),
+    -> (10, 'Meena', 'Kulkarni', 'Mechanical Engg', 61000, '2021-04-25');
+Query OK, 10 rows affected (0.12 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from Employee;
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+| Emp_id | Dept_id | Emp_fname | Emp_lname | Emp_position      | Emp_salary | Emp_JoinDate |
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+|      1 |       1 | Amit      | Sharma    | Software Engineer |   60000.00 | 2021-06-15   |
+|      2 |       2 | Priya     | Desai     | HR Manager        |   75000.00 | 2020-02-01   |
+|      3 |       3 | Rohit     | Jain      | Accountant        |   67000.00 | 2022-07-10   |
+|      4 |       4 | Sneha     | Joshi     | Marketing Exec    |   58000.00 | 2023-03-18   |
+|      5 |       5 | Arjun     | Mehta     | Ops Manager       |   72000.00 | 2020-11-22   |
+|      6 |       6 | Pooja     | Rao       | System Analyst    |   64000.00 | 2022-01-05   |
+|      7 |       7 | Karan     | Verma     | Electronics Engg  |   66000.00 | 2021-09-30   |
+|      8 |       8 | Anjali    | Patil     | AI Engineer       |   77000.00 | 2023-05-14   |
+|      9 |       9 | Nikhil    | Iyer      | Comm Engg         |   63000.00 | 2022-06-12   |
+|     10 |      10 | Meena     | Kulkarni  | Mechanical Engg   |   61000.00 | 2021-04-25   |
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> 
+
+
+
+Database changed
+mysql> select * from Dept;
++---------+------------+---------------+
+| Dept_id | Dept_name  | Dept_location |
++---------+------------+---------------+
+|       1 | IT         | Pune          |
+|       2 | HR         | Mumbai        |
+|       3 | Finance    | Delhi         |
+|       4 | Marketing  | Bangalore     |
+|       5 | Operations | Hyderabad     |
+|       6 | Computer   | Pune          |
+|       7 | ENTC       | Pune          |
+|       8 | AIDS       | Mumbai        |
+|       9 | ECE        | Chennai       |
+|      10 | Mechanical | Nashik        |
++---------+------------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from Employee;
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+| Emp_id | Dept_id | Emp_fname | Emp_lname | Emp_position      | Emp_salary | Emp_JoinDate |
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+|      1 |       1 | Amit      | Sharma    | Software Engineer |   60000.00 | 2021-06-15   |
+|      2 |       2 | Priya     | Desai     | HR Manager        |   75000.00 | 2020-02-01   |
+|      3 |       3 | Rohit     | Jain      | Accountant        |   67000.00 | 2022-07-10   |
+|      4 |       4 | Sneha     | Joshi     | Marketing Exec    |   58000.00 | 2023-03-18   |
+|      5 |       5 | Arjun     | Mehta     | Ops Manager       |   72000.00 | 2020-11-22   |
+|      6 |       6 | Pooja     | Rao       | System Analyst    |   64000.00 | 2022-01-05   |
+|      7 |       7 | Karan     | Verma     | Electronics Engg  |   66000.00 | 2021-09-30   |
+|      8 |       8 | Anjali    | Patil     | AI Engineer       |   77000.00 | 2023-05-14   |
+|      9 |       9 | Nikhil    | Iyer      | Comm Engg         |   63000.00 | 2022-06-12   |
+|     10 |      10 | Meena     | Kulkarni  | Mechanical Engg   |   61000.00 | 2021-04-25   |
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from Project;
++---------+---------+--------------------+---------------+------------+-----------+
+| Proj_id | Dept_id | Proj_name          | Proj_location | Proj_cost  | Proj_year |
++---------+---------+--------------------+---------------+------------+-----------+
+|       1 |       1 | ERP Revamp         | Pune          | 1500000.00 |      2022 |
+|       2 |       2 | Recruitment Portal | Mumbai        |  500000.00 |      2021 |
+|       3 |       3 | Tax Compliance     | Delhi         |  300000.00 |      2023 |
+|       4 |       4 | Social Campaign    | Bangalore     |  800000.00 |      2022 |
+|       5 |       5 | Logistics Upgrade  | Hyderabad     | 1200000.00 |      2024 |
+|       6 |       6 | Campus Automation  | Pune          |  900000.00 |      2022 |
+|       7 |       7 | PCB Design Suite   | Pune          |  700000.00 |      2023 |
+|       8 |       8 | AI Chatbot         | Mumbai        | 1100000.00 |      2023 |
+|       9 |       9 | 5G Prototype       | Chennai       | 1400000.00 |      2024 |
+|      10 |      10 | Robotics Arm       | Nashik        | 1000000.00 |      2021 |
++---------+---------+--------------------+---------------+------------+-----------+
+10 rows in set (0.00 sec)
+
+
+
+--Query 2 2. Display all Employee details with Department ‘Computer’ and ‘IT’ and Employee
+first name starting with 'p' or 'a'.
+
+mysql> SELECT E.*
+    -> FROM Employee E
+    -> JOIN Dept D ON E.Dept_id = D.Dept_id
+    -> WHERE D.Dept_name IN ('Computer', 'IT')
+    ->   AND (E.Emp_fname LIKE 'P%' OR E.Emp_fname LIKE 'A%');
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+| Emp_id | Dept_id | Emp_fname | Emp_lname | Emp_position      | Emp_salary | Emp_JoinDate |
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+|      1 |       1 | Amit      | Sharma    | Software Engineer |   60000.00 | 2021-06-15   |
+|      6 |       6 | Pooja     | Rao       | System Analyst    |   64000.00 | 2022-01-05   |
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+2 rows in set (0.00 sec)
+
+ 
+ 
+ --Query 3 lists the number of different Employee Positions.
+ 
+ 
+mysql> select count(distinct Emp_position) as total_unique_positions from Employee;
++------------------------+
+| total_unique_positions |
++------------------------+
+|                     10 |
++------------------------+
+1 row in set (0.00 sec)
+
+
+
+--Query 4  Give 10% increase in Salary of the Employee whose joining year is before 2021.
+
+
+
+mysql> update Employee
+    -> 
+    -> set Emp_salary=Emp_salary*1.10
+    -> where year(emp_joinDate)<2021;
+Query OK, 2 rows affected (0.38 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from Employee;
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+| Emp_id | Dept_id | Emp_fname | Emp_lname | Emp_position      | Emp_salary | Emp_JoinDate |
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+|      1 |       1 | Amit      | Sharma    | Software Engineer |   60000.00 | 2021-06-15   |
+|      2 |       2 | Priya     | Desai     | HR Manager        |   82500.00 | 2020-02-01   |
+|      3 |       3 | Rohit     | Jain      | Accountant        |   67000.00 | 2022-07-10   |
+|      4 |       4 | Sneha     | Joshi     | Marketing Exec    |   58000.00 | 2023-03-18   |
+|      5 |       5 | Arjun     | Mehta     | Ops Manager       |   79200.00 | 2020-11-22   |
+|      6 |       6 | Pooja     | Rao       | System Analyst    |   64000.00 | 2022-01-05   |
+|      7 |       7 | Karan     | Verma     | Electronics Engg  |   66000.00 | 2021-09-30   |
+|      8 |       8 | Anjali    | Patil     | AI Engineer       |   77000.00 | 2023-05-14   |
+|      9 |       9 | Nikhil    | Iyer      | Comm Engg         |   63000.00 | 2022-06-12   |
+|     10 |      10 | Meena     | Kulkarni  | Mechanical Engg   |   61000.00 | 2021-04-25   |
++--------+---------+-----------+-----------+-------------------+------------+--------------+
+10 rows in set (0.00 sec)
+
+
+ --Query 4  Find the names of Projects with location ‘pune’ .
+ 
+ 
+mysql> select Proj_name from Project  where Proj_location='Pune' ;
++-------------------+
+| Proj_name         |
++-------------------+
+| ERP Revamp        |
+| Campus Automation |
+| PCB Design Suite  |
++-------------------+
+3 rows in set (0.00 sec)
+
+
+--Query 5 Find the project having cost in between 100000 to 500000.
+
+
+mysql> select Proj_name from Project where Proj_cost between 100000 and 500000;
++--------------------+
+| Proj_name          |
++--------------------+
+| Recruitment Portal |
+| Tax Compliance     |
++--------------------+
+2 rows in set (0.00 sec)
+
+ 
+ --Query 6  Delete Department details which location is ‘Mumbai’.
+ 
+ 
+mysql> Delete from Dept where Dept_location='Mumbai';
+Query OK, 2 rows affected (0.25 sec)
+
+mysql> select * from Dept;
++---------+------------+---------------+
+| Dept_id | Dept_name  | Dept_location |
++---------+------------+---------------+
+|       1 | IT         | Pune          |
+|       3 | Finance    | Delhi         |
+|       4 | Marketing  | Bangalore     |
+|       5 | Operations | Hyderabad     |
+|       6 | Computer   | Pune          |
+|       7 | ENTC       | Pune          |
+|       9 | ECE        | Chennai       |
+|      10 | Mechanical | Nashik        |
++---------+------------+---------------+
+8 rows in set (0.00 sec)
+
+
+
+--Query 7 Display all employees with Emp _id and Emp name in decreasing order of
+
+
+mysql> select Emp_id ,Emp_fname from Employee order by Emp_fname desc;
++--------+-----------+
+| Emp_id | Emp_fname |
++--------+-----------+
+|      4 | Sneha     |
+|      3 | Rohit     |
+|      6 | Pooja     |
+|      9 | Nikhil    |
+|     10 | Meena     |
+|      7 | Karan     |
+|      5 | Arjun     |
+|      1 | Amit      |
++--------+-----------+
+8 rows in set (0.00 sec)
+
+ 
+ --Query 8  10. Display Proj_name,Proj_location ,Proj_cost of all project started in 2020,2021,2023
+ 
+ 
+mysql> select Proj_name,Proj_location,Proj_cost from Project where Proj_year In (2020,2021,2023);
++------------------+---------------+------------+
+| Proj_name        | Proj_location | Proj_cost  |
++------------------+---------------+------------+
+| Tax Compliance   | Delhi         |  300000.00 |
+| PCB Design Suite | Pune          |  700000.00 |
+| Robotics Arm     | Nashik        | 1000000.00 |
++------------------+---------------+------------+
+3 rows in set (0.00 sec)
+
+
+
+--Query 9   Find the project having maximum price and find average of Project cost
+
+mysql> SELECT 
+    ->     Proj_name,
+    ->     Proj_cost,
+    ->     (SELECT AVG(Proj_cost) FROM Project) AS Average_Proj_Cost
+    -> FROM Project
+    -> WHERE Proj_cost = (SELECT MAX(Proj_cost) FROM Project);
++------------+------------+-------------------+
+| Proj_name  | Proj_cost  | Average_Proj_Cost |
++------------+------------+-------------------+
+| ERP Revamp | 1500000.00 |     940000.000000 |
++------------+------------+-------------------+
+1 row in set (0.00 sec)
+
+
+mysql> CREATE VIEW Emp_Dept_View AS
+    -> SELECT 
+    ->     E.Emp_id, 
+    ->     E.Emp_fname, 
+    ->     E.Emp_lname, 
+    ->     E.Emp_position, 
+    ->     E.Emp_salary,
+    ->     D.Dept_name, 
+    ->     D.Dept_location
+    -> FROM 
+    ->     Employee E, Dept D
+    -> WHERE 
+    ->     E.Dept_id = D.Dept_id;
+ERROR 1050 (42S01): Table 'Emp_Dept_View' already exists
+
+
+
+--Query 10 Perform on delete cascade
+
+
+mysql> mysql> delete from Dept where Dept_id=1;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Employee;
++--------+---------+-----------+-----------+------------------+------------+--------------+
+| Emp_id | Dept_id | Emp_fname | Emp_lname | Emp_position     | Emp_salary | Emp_JoinDate |
++--------+---------+-----------+-----------+------------------+------------+--------------+
+|      2 |       2 | Priya     | Desai     | HR Manager       |   75000.00 | 2020-02-01   |
+|      3 |       3 | Rohit     | Jain      | Accountant       |   67000.00 | 2022-07-10   |
+|      4 |       4 | Sneha     | Joshi     | Marketing Exec   |   58000.00 | 2023-03-18   |
+|      5 |       5 | Arjun     | Mehta     | Ops Manager      |   72000.00 | 2020-11-22   |
+|      6 |       6 | Pooja     | Rao       | System Analyst   |   64000.00 | 2022-01-05   |
+|      7 |       7 | Karan     | Verma     | Electronics Engg |   66000.00 | 2021-09-30   |
+|      8 |       8 | Anjali    | Patil     | AI Engineer      |   77000.00 | 2023-05-14   |
+|      9 |       9 | Nikhil    | Iyer      | Comm Engg        |   63000.00 | 2022-06-12   |
+|     10 |      10 | Meena     | Kulkarni  | Mechanical Engg  |   61000.00 | 2021-04-25   |
++--------+---------+-----------+-----------+------------------+------------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from Dept;
++---------+------------+---------------+
+| Dept_id | Dept_name  | Dept_location |
++---------+------------+---------------+
+|       2 | HR         | Mumbai        |
+|       3 | Finance    | Delhi         |
+|       4 | Marketing  | Bangalore     |
+|       5 | Operations | Hyderabad     |
+|       6 | Computer   | Pune          |
+|       7 | ENTC       | Pune          |
+|       8 | AIDS       | Mumbai        |
+|       9 | ECE        | Chennai       |
+|      10 | Mechanical | Nashik        |
++---------+------------+---------------+
+9 rows in set (0.00 sec)
+
+mysql> 
+
+
+
+

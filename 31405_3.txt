@@ -1,0 +1,461 @@
+                                                              
+                                                            Assignment no 3
+Title: Assignment No 3 (based on Employee schema)
+Roll No: 31405
+
+
+ Employee( Emp_id, Dept_id, Emp_fname, Emp_lname, Emp_Position,Emp_salary,Emp_JoinDate)
+ Dept ( Dept_id, Dept_name,location)
+Project( Proj_id,Dept_id ,Proj_Name,Proj_Location,Proj_cost,Proj_year)
+
+
+
+Pict@pict-OptiPlex-9020:~$ mysql -h 10.10.8.119 -u te31405 -p
+ 
+ 
+mysql> show tables;
++----------------------+
+| Tables_in_te31405_db |
++----------------------+
+| Dept                 |
+| Emp_Dept_View        |
+| Employee             |
+| Project              |
+| Student              |
+| student              |
++----------------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Employee;
++--------+---------+-----------+-----------+------------------+------------+--------------+
+| Emp_id | Dept_id | Emp_fname | Emp_lname | Emp_position     | Emp_salary | Emp_JoinDate |
++--------+---------+-----------+-----------+------------------+------------+--------------+
+|      2 |       2 | Priya     | Desai     | HR Manager       |   75000.00 | 2020-02-01   |
+|      3 |       3 | Rohit     | Jain      | Accountant       |   67000.00 | 2022-07-10   |
+|      4 |       4 | Sneha     | Joshi     | Marketing Exec   |   58000.00 | 2023-03-18   |
+|      5 |       5 | Arjun     | Mehta     | Ops Manager      |   72000.00 | 2020-11-22   |
+|      6 |       6 | Pooja     | Rao       | System Analyst   |   64000.00 | 2022-01-05   |
+|      7 |       7 | Karan     | Verma     | Electronics Engg |   66000.00 | 2021-09-30   |
+|      8 |       8 | Anjali    | Patil     | AI Engineer      |   77000.00 | 2023-05-14   |
+|      9 |       9 | Nikhil    | Iyer      | Comm Engg        |   63000.00 | 2022-06-12   |
+|     10 |      10 | Meena     | Kulkarni  | Mechanical Engg  |   61000.00 | 2021-04-25   |
++--------+---------+-----------+-----------+------------------+------------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Project;
++---------+---------+--------------------+---------------+------------+-----------+
+| Proj_id | Dept_id | Proj_name          | Proj_location | Proj_cost  | Proj_year |
++---------+---------+--------------------+---------------+------------+-----------+
+|       1 |       1 | ERP Revamp         | Pune          | 1500000.00 |      2022 |
+|       2 |       2 | Recruitment Portal | Mumbai        |  500000.00 |      2021 |
+|       3 |       3 | Tax Compliance     | Delhi         |  300000.00 |      2023 |
+|       4 |       4 | Social Campaign    | Bangalore     |  800000.00 |      2022 |
+|       5 |       5 | Logistics Upgrade  | Hyderabad     | 1200000.00 |      2024 |
+|       6 |       6 | Campus Automation  | Pune          |  900000.00 |      2022 |
+|       7 |       7 | PCB Design Suite   | Pune          |  700000.00 |      2023 |
+|       8 |       8 | AI Chatbot         | Mumbai        | 1100000.00 |      2023 |
+|       9 |       9 | 5G Prototype       | Chennai       | 1400000.00 |      2024 |
+|      10 |      10 | Robotics Arm       | Nashik        | 1000000.00 |      2021 |
++---------+---------+--------------------+---------------+------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> Select * from Dept;
++---------+------------+---------------+
+| Dept_id | Dept_name  | Dept_location |
++---------+------------+---------------+
+|       1 | IT         | Pune          |
+|       2 | HR         | Mumbai        |
+|       3 | Finance    | Delhi         |
+|       4 | Marketing  | Bangalore     |
+|       5 | Operations | Hyderabad     |
+|       6 | Computer   | Pune          |
+|       7 | ENTC       | Pune          |
+|       8 | AIDS       | Mumbai        |
+|       9 | ECE        | Chennai       |
+|      10 | Mechanical | Nashik        |
++---------+------------+---------------+
+10 rows in set (0.00 sec)
+
+
+--Query 1: Find Employee details and Department details using NATURAL JOIN.
+
+
+mysql> SELECT * FROM Employee
+    -> NATURAL JOIN Dept;
++---------+--------+-----------+-----------+------------------+------------+--------------+------------+---------------+
+| Dept_id | Emp_id | Emp_fname | Emp_lname | Emp_position     | Emp_salary | Emp_JoinDate | Dept_name  | Dept_location |
++---------+--------+-----------+-----------+------------------+------------+--------------+------------+---------------+
+|       2 |      2 | Priya     | Desai     | HR Manager       |   75000.00 | 2020-02-01   | HR         | Mumbai        |
+|       3 |      3 | Rohit     | Jain      | Accountant       |   67000.00 | 2022-07-10   | Finance    | Delhi         |
+|       4 |      4 | Sneha     | Joshi     | Marketing Exec   |   58000.00 | 2023-03-18   | Marketing  | Bangalore     |
+|       5 |      5 | Arjun     | Mehta     | Ops Manager      |   72000.00 | 2020-11-22   | Operations | Hyderabad     |
+|       6 |      6 | Pooja     | Rao       | System Analyst   |   64000.00 | 2022-01-05   | Computer   | Pune          |
+|       7 |      7 | Karan     | Verma     | Electronics Engg |   66000.00 | 2021-09-30   | ENTC       | Pune          |
+|       8 |      8 | Anjali    | Patil     | AI Engineer      |   77000.00 | 2023-05-14   | AIDS       | Mumbai        |
+|       9 |      9 | Nikhil    | Iyer      | Comm Engg        |   63000.00 | 2022-06-12   | ECE        | Chennai       |
+|      10 |     10 | Meena     | Kulkarni  | Mechanical Engg  |   61000.00 | 2021-04-25   | Mechanical | Nashik        |
++---------+--------+-----------+-----------+------------------+------------+--------------+------------+---------------+
+9 rows in set (0.00 sec)
+
+
+
+-- Query 2: Find the emp_fname,Emp_position,location,Emp_JoinDate who have same Dept id.
+
+
+mysql> SELECT E1.Emp_fname,E1.Emp_position,  D.Dept_location , E1.Emp_JoinDate  
+      FROM Employee E1 JOIN Employee E2 ON E1.Emp_id=E2.Emp_id  
+	JOIN Dept D ON E1.Emp_id=D.Dept_id;
++-----------+------------------+---------------+--------------+
+| Emp_fname | Emp_position     | Dept_location | Emp_JoinDate |
++-----------+------------------+---------------+--------------+
+| Priya     | HR Manager       | Mumbai        | 2020-02-01   |
+| Rohit     | Accountant       | Delhi         | 2022-07-10   |
+| Sneha     | Marketing Exec   | Bangalore     | 2023-03-18   |
+| Arjun     | Ops Manager      | Hyderabad     | 2020-11-22   |
+| Pooja     | System Analyst   | Pune          | 2022-01-05   |
+| Karan     | Electronics Engg | Pune          | 2021-09-30   |
+| Anjali    | AI Engineer      | Mumbai        | 2023-05-14   |
+| Nikhil    | Comm Engg        | Chennai       | 2022-06-12   |
+| Meena     | Mechanical Engg  | Nashik        | 2021-04-25   |
++-----------+------------------+---------------+--------------+
+9 rows in set (0.00 sec)
+
+
+
+--Query 3: Find the Employee details ,Proj_id,Project cost who does not have Project
+location as ‘Hyderabad’.
+
+
+
+mysql> SELECT E.* , P.Proj_id, P.Proj_location
+    -> FROM Employee E
+    -> JOIN Project P on E.Emp_id=P.Proj_id
+    -> WHERE P.Proj_location<> 'Hyderabad';
++--------+---------+-----------+-----------+------------------+------------+--------------+---------+---------------+
+| Emp_id | Dept_id | Emp_fname | Emp_lname | Emp_position     | Emp_salary | Emp_JoinDate | Proj_id | Proj_location |
++--------+---------+-----------+-----------+------------------+------------+--------------+---------+---------------+
+|      2 |       2 | Priya     | Desai     | HR Manager       |   75000.00 | 2020-02-01   |       2 | Mumbai        |
+|      3 |       3 | Rohit     | Jain      | Accountant       |   67000.00 | 2022-07-10   |       3 | Delhi         |
+|      4 |       4 | Sneha     | Joshi     | Marketing Exec   |   58000.00 | 2023-03-18   |       4 | Bangalore     |
+|      6 |       6 | Pooja     | Rao       | System Analyst   |   64000.00 | 2022-01-05   |       6 | Pune          |
+|      7 |       7 | Karan     | Verma     | Electronics Engg |   66000.00 | 2021-09-30   |       7 | Pune          |
+|      8 |       8 | Anjali    | Patil     | AI Engineer      |   77000.00 | 2023-05-14   |       8 | Mumbai        |
+|      9 |       9 | Nikhil    | Iyer      | Comm Engg        |   63000.00 | 2022-06-12   |       9 | Chennai       |
+|     10 |      10 | Meena     | Kulkarni  | Mechanical Engg  |   61000.00 | 2021-04-25   |      10 | Nashik        |
++--------+---------+-----------+-----------+------------------+------------+--------------+---------+---------------+
+8 rows in set (0.00 sec)
+
+ 
+ 
+ --Query 4:Find Department Name ,employee name, Emp_position for which project year
+is 2022
+ 
+ 
+mysql> SELECT D.Dept_name , E.Emp_fname, E.Emp_position  
+    -> From Employee E
+    -> join Dept D on D.Dept_id=E.Emp_id
+    -> join Project P on P.Dept_id=E.Emp_id
+    -> where P.Proj_year='2022';
++-----------+-----------+----------------+
+| Dept_name | Emp_fname | Emp_position   |
++-----------+-----------+----------------+
+| Marketing | Sneha     | Marketing Exec |
+| Computer  | Pooja     | System Analyst |
++-----------+-----------+----------------+
+2 rows in set (0.00 sec)
+
+
+
+
+mysql> SELECT D.Dept_name , E.Emp_fname, E.Emp_position   From Employee E join Dept D on D.Dept_id=E.Emp_id join Project P on P.Dept_id=E.Emp_id where P.Proj_year='2023';
++-----------+-----------+------------------+
+| Dept_name | Emp_fname | Emp_position     |
++-----------+-----------+------------------+
+| Finance   | Rohit     | Accountant       |
+| ENTC      | Karan     | Electronics Engg |
+| AIDS      | Anjali    | AI Engineer      |
++-----------+-----------+------------------+
+3 rows in set (0.00 sec)
+
+
+
+
+--Query 5:Display emp_position,D_name who have Project cost >30000
+
+
+
+
+mysql> Select E.Emp_position, D.Dept_name
+    -> from Employee E
+    -> join Project P on P.Dept_id=E.Emp_id
+    -> join Dept D on E.EMp_id=D.Dept_id
+    -> where P.Proj_cost > 300000;
++------------------+------------+
+| Emp_position     | Dept_name  |
++------------------+------------+
+| HR Manager       | HR         |
+| Marketing Exec   | Marketing  |
+| Ops Manager      | Operations |
+| System Analyst   | Computer   |
+| Electronics Engg | ENTC       |
+| AI Engineer      | AIDS       |
+| Comm Engg        | ECE        |
+| Mechanical Engg  | Mechanical |
++------------------+------------+
+8 rows in set (0.00 sec)
+
+
+
+--Query 6:Find the names of all the Projects that started in the year 2022.
+
+
+mysql> SELECT * from Project where Proj_year= 2022;
++---------+---------+-------------------+---------------+------------+-----------+
+| Proj_id | Dept_id | Proj_name         | Proj_location | Proj_cost  | Proj_year |
++---------+---------+-------------------+---------------+------------+-----------+
+|       1 |       1 | ERP Revamp        | Pune          | 1500000.00 |      2022 |
+|       4 |       4 | Social Campaign   | Bangalore     |  800000.00 |      2022 |
+|       6 |       6 | Campus Automation | Pune          |  900000.00 |      2022 |
++---------+---------+-------------------+---------------+------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * From Emp_Dept_View;
++--------+-----------+-----------+------------------+------------+------------+---------------+
+| Emp_id | Emp_fname | Emp_lname | Emp_position     | Emp_salary | Dept_name  | Dept_location |
++--------+-----------+-----------+------------------+------------+------------+---------------+
+|      2 | Priya     | Desai     | HR Manager       |   75000.00 | HR         | Mumbai        |
+|      3 | Rohit     | Jain      | Accountant       |   67000.00 | Finance    | Delhi         |
+|      4 | Sneha     | Joshi     | Marketing Exec   |   58000.00 | Marketing  | Bangalore     |
+|      5 | Arjun     | Mehta     | Ops Manager      |   72000.00 | Operations | Hyderabad     |
+|      6 | Pooja     | Rao       | System Analyst   |   64000.00 | Computer   | Pune          |
+|      7 | Karan     | Verma     | Electronics Engg |   66000.00 | ENTC       | Pune          |
+|      8 | Anjali    | Patil     | AI Engineer      |   77000.00 | AIDS       | Mumbai        |
+|      9 | Nikhil    | Iyer      | Comm Engg        |   63000.00 | ECE        | Chennai       |
+|     10 | Meena     | Kulkarni  | Mechanical Engg  |   61000.00 | Mechanical | Nashik        |
++--------+-----------+-----------+------------------+------------+------------+---------------+
+9 rows in set (0.00 sec)
+
+
+--Query 7  List the Dept_name having no_of_emp=1
+
+
+ 
+mysql> SELECT D.Dept_name 
+    -> from Employee E
+    -> join Dept D on E.Emp_id=D.Dept_id
+    -> group by D.Dept_name
+    -> having Count(E.Emp_id)=1;
++------------+
+| Dept_name  |
++------------+
+| AIDS       |
+| Computer   |
+| ECE        |
+| ENTC       |
+| Finance    |
+| HR         |
+| Marketing  |
+| Mechanical |
+| Operations |
++------------+
+9 rows in set (0.00 sec)
+
+ 
+ ---Query 8: Display the total number of employee who have joined any project before 2023
+ 
+ 
+
+mysql> SELECT COUNT(E.Emp_id) AS Total_no_of_Employee FROM Employee E 
+	JOIN Project P ON E.Dept_id = P.Dept_id
+	 WHERE P.Proj_year < 2023;
++----------------------+
+| Total_no_of_Employee |
++----------------------+
+|                    4 |
++----------------------+
+1 row in set (0.00 sec)
+
+
+--Query 9 Create a view showing the employee and Department details.
+
+
+
+mysql> Select * from Emp_Dept_View;
++--------+-----------+-----------+------------------+------------+------------+---------------+
+| Emp_id | Emp_fname | Emp_lname | Emp_position     | Emp_salary | Dept_name  | Dept_location |
++--------+-----------+-----------+------------------+------------+------------+---------------+
+|      2 | Priya     | Desai     | HR Manager       |   75000.00 | HR         | Mumbai        |
+|      3 | Rohit     | Jain      | Accountant       |   67000.00 | Finance    | Delhi         |
+|      4 | Sneha     | Joshi     | Marketing Exec   |   58000.00 | Marketing  | Bangalore     |
+|      5 | Arjun     | Mehta     | Ops Manager      |   72000.00 | Operations | Hyderabad     |
+|      6 | Pooja     | Rao       | System Analyst   |   64000.00 | Computer   | Pune          |
+|      7 | Karan     | Verma     | Electronics Engg |   66000.00 | ENTC       | Pune          |
+|      8 | Anjali    | Patil     | AI Engineer      |   77000.00 | AIDS       | Mumbai        |
+|      9 | Nikhil    | Iyer      | Comm Engg        |   63000.00 | ECE        | Chennai       |
+|     10 | Meena     | Kulkarni  | Mechanical Engg  |   61000.00 | Mechanical | Nashik        |
++--------+-----------+-----------+------------------+------------+------------+---------------+
+9 rows in set (0.01 sec)
+
+
+--Query 10 : Perform Manipulation on simple view-Insert, update, delete, drop view.
+
+ --Insert
+ 
+ 
+mysql> INSERT INTO Dept (Dept_id, Dept_name, Dept_location) VALUES (11, 'Sports', 'London');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Dept;
++---------+------------+---------------+
+| Dept_id | Dept_name  | Dept_location |
++---------+------------+---------------+
+|       1 | IT         | Pune          |
+|       2 | HR         | Mumbai        |
+|       3 | Finance    | Delhi         |
+|       4 | Marketing  | Bangalore     |
+|       5 | Operations | Hyderabad     |
+|       6 | Computer   | Pune          |
+|       7 | ENTC       | Pune          |
+|       8 | AIDS       | Mumbai        |
+|       9 | ECE        | Chennai       |
+|      10 | Mechanical | Nashik        |
+|      11 | Sports     | London        |
++---------+------------+---------------+
+11 rows in set (0.00 sec)
+
+
+
+mysql> INSERT INTO Employee (Emp_id, Dept_id, Emp_fname, Emp_lname, Emp_Position, Emp_salary, Emp_JoinDate)
+    -> VALUES (11, (SELECT Dept_id FROM Dept WHERE Dept_name = 'Sports'), 'Virat', 'Kohli', 'Manager', 12000000, '2023-07-01');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Emp_Dept_View;
++--------+-----------+-----------+------------------+-------------+------------+---------------+
+| Emp_id | Emp_fname | Emp_lname | Emp_position     | Emp_salary  | Dept_name  | Dept_location |
++--------+-----------+-----------+------------------+-------------+------------+---------------+
+|      2 | Priya     | Desai     | HR Manager       |    75000.00 | HR         | Mumbai        |
+|      3 | Rohit     | Jain      | Accountant       |    67000.00 | Finance    | Delhi         |
+|      4 | Sneha     | Joshi     | Marketing Exec   |    58000.00 | Marketing  | Bangalore     |
+|      5 | Arjun     | Mehta     | Ops Manager      |    72000.00 | Operations | Hyderabad     |
+|      6 | Pooja     | Rao       | System Analyst   |    64000.00 | Computer   | Pune          |
+|      7 | Karan     | Verma     | Electronics Engg |    66000.00 | ENTC       | Pune          |
+|      8 | Anjali    | Patil     | AI Engineer      |    77000.00 | AIDS       | Mumbai        |
+|      9 | Nikhil    | Iyer      | Comm Engg        |    63000.00 | ECE        | Chennai       |
+|     10 | Meena     | Kulkarni  | Mechanical Engg  |    61000.00 | Mechanical | Nashik        |
+|     11 | Virat     | Kohli     | Manager          | 12000000.00 | Sports     | London        |
++--------+-----------+-----------+------------------+-------------+------------+---------------+
+10 rows in set (0.00 sec)
+ 
+ 
+ --Update
+ 
+ 
+mysql> Update Employee
+    -> set Emp_Salary=700000
+    -> where Emp_id=10;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Emp_Dept_View;
++--------+-----------+-----------+------------------+-------------+------------+---------------+
+| Emp_id | Emp_fname | Emp_lname | Emp_position     | Emp_salary  | Dept_name  | Dept_location |
++--------+-----------+-----------+------------------+-------------+------------+---------------+
+|      2 | Priya     | Desai     | HR Manager       |    75000.00 | HR         | Mumbai        |
+|      3 | Rohit     | Jain      | Accountant       |    67000.00 | Finance    | Delhi         |
+|      4 | Sneha     | Joshi     | Marketing Exec   |    58000.00 | Marketing  | Bangalore     |
+|      5 | Arjun     | Mehta     | Ops Manager      |    72000.00 | Operations | Hyderabad     |
+|      6 | Pooja     | Rao       | System Analyst   |    64000.00 | Computer   | Pune          |
+|      7 | Karan     | Verma     | Electronics Engg |    66000.00 | ENTC       | Pune          |
+|      8 | Anjali    | Patil     | AI Engineer      |    77000.00 | AIDS       | Mumbai        |
+|      9 | Nikhil    | Iyer      | Comm Engg        |    63000.00 | ECE        | Chennai       |
+|     10 | Meena     | Kulkarni  | Mechanical Engg  |   700000.00 | Mechanical | Nashik        |
+|     11 | Virat     | Kohli     | Manager          | 12000000.00 | Sports     | London        |
++--------+-----------+-----------+------------------+-------------+------------+---------------+
+10 rows in set (0.00 sec)
+
+
+ 
+--Delete
+
+
+
+mysql> Delete From Employee 
+    -> where Emp_id=10;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Emp_Dept_View;
++--------+-----------+-----------+------------------+-------------+------------+---------------+
+| Emp_id | Emp_fname | Emp_lname | Emp_position     | Emp_salary  | Dept_name  | Dept_location |
++--------+-----------+-----------+------------------+-------------+------------+---------------+
+|      2 | Priya     | Desai     | HR Manager       |    75000.00 | HR         | Mumbai        |
+|      3 | Rohit     | Jain      | Accountant       |    67000.00 | Finance    | Delhi         |
+|      4 | Sneha     | Joshi     | Marketing Exec   |    58000.00 | Marketing  | Bangalore     |
+|      5 | Arjun     | Mehta     | Ops Manager      |    72000.00 | Operations | Hyderabad     |
+|      6 | Pooja     | Rao       | System Analyst   |    64000.00 | Computer   | Pune          |
+|      7 | Karan     | Verma     | Electronics Engg |    66000.00 | ENTC       | Pune          |
+|      8 | Anjali    | Patil     | AI Engineer      |    77000.00 | AIDS       | Mumbai        |
+|      9 | Nikhil    | Iyer      | Comm Engg        |    63000.00 | ECE        | Chennai       |
+|     11 | Virat     | Kohli     | Manager          | 12000000.00 | Sports     | London        |
++--------+-----------+-----------+------------------+-------------+------------+---------------+
+9 rows in set (0.00 sec)
+
+
+
+--Drop View
+
+
+
+mysql> Drop view Emp_Dept_View;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from Emp_Dept_View;
+ERROR 1146 (42S02): Table 'te31405_db.Emp_Dept_View' doesn't exist
+ 
+ 
+ ~Left Join
+ 
+-- Query 11 Display all employees with their department name and location. If an employee doesn't belong to any department, show NULL for department information.
+mysql> SELECT E.Emp_id, E.Emp_fname, E.Emp_lname, E.Emp_position, D.Dept_name, D.dept_location FROM Employee E LEFT JOIN Dept D ON E.Dept_id =
+ D.Dept_id;
++--------+-----------+-----------+------------------+------------+---------------+
+| Emp_id | Emp_fname | Emp_lname | Emp_position     | Dept_name  | dept_location |
++--------+-----------+-----------+------------------+------------+---------------+
+|      2 | Priya     | Desai     | HR Manager       | HR         | Mumbai        |
+|      3 | Rohit     | Jain      | Accountant       | Finance    | Delhi         |
+|      4 | Sneha     | Joshi     | Marketing Exec   | Marketing  | Bangalore     |
+|      5 | Arjun     | Mehta     | Ops Manager      | Operations | Hyderabad     |
+|      6 | Pooja     | Rao       | System Analyst   | Computer   | Pune          |
+|      7 | Karan     | Verma     | Electronics Engg | ENTC       | Pune          |
+|      8 | Anjali    | Patil     | AI Engineer      | AIDS       | Mumbai        |
+|      9 | Nikhil    | Iyer      | Comm Engg        | ECE        | Chennai       |
+|     11 | Virat     | Kohli     | Manager          | Sports     | London        |
++--------+-----------+-----------+------------------+------------+---------------+
+9 rows in set (0.00 sec)
+
+
+
+~~Right Join
+
+
+
+--Query 12: Display all departments with their employees. If a department has no employees, show NULL for employee details.
+mysql> SELECT E.Emp_id, E.Emp_fname, E.Emp_lname, E.Emp_position, D.Dept_name,D. dept_location FROM Employee E RIGHT JOIN Dept D ON E.Dept_id
+= D.Dept_id;
++--------+-----------+-----------+------------------+------------+---------------+
+| Emp_id | Emp_fname | Emp_lname | Emp_position     | Dept_name  | dept_location |
++--------+-----------+-----------+------------------+------------+---------------+
+|   NULL | NULL      | NULL      | NULL             | IT         | Pune          |
+|      2 | Priya     | Desai     | HR Manager       | HR         | Mumbai        |
+|      3 | Rohit     | Jain      | Accountant       | Finance    | Delhi         |
+|      4 | Sneha     | Joshi     | Marketing Exec   | Marketing  | Bangalore     |
+|      5 | Arjun     | Mehta     | Ops Manager      | Operations | Hyderabad     |
+|      6 | Pooja     | Rao       | System Analyst   | Computer   | Pune          |
+|      7 | Karan     | Verma     | Electronics Engg | ENTC       | Pune          |
+|      8 | Anjali    | Patil     | AI Engineer      | AIDS       | Mumbai        |
+|      9 | Nikhil    | Iyer      | Comm Engg        | ECE        | Chennai       |
+|   NULL | NULL      | NULL      | NULL             | Mechanical | Nashik        |
+|     11 | Virat     | Kohli     | Manager          | Sports     | London        |
++--------+-----------+-----------+------------------+------------+---------------+
+11 rows in set (0.00 sec)
+
+ 
